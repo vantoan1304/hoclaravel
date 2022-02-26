@@ -29,11 +29,15 @@ Route::prefix('admin')->group(function(){
             Route::get('/posts', [\App\Http\Controllers\Backend\Posts\PostController::class, 'index'])->name('backend.post.index');
 
             //category
-            Route::get('/category', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'index'])->name('backend.category.index');
+            Route::prefix('/category')->group(function(){
+                Route::get('', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'index'])->name('backend.category.index');
+                Route::get('/create', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'create'])->name('backend.category.create');
+                Route::post('/store', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'store'])->name('backend.category.store');
+                Route::post('/update/{id}', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'update'])->name('backend.category.update');
+                Route::get('/edit/{id}', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'edit'])->name('backend.category.edit');
+            });
 
-            Route::get('/category/add', [\App\Http\Controllers\Backend\Category\CategoryController::class , 'showform']);
 
-          Route::post('/category/add', [\App\Http\Controllers\Backend\Category\CategoryController::class, 'handleCategory'])->name('category.add');
         });
 
 });

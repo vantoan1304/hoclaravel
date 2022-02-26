@@ -1,5 +1,5 @@
 <x-layouts.backend>
 
-    <h3>List category</h3>
+    @include('components.backend.shared.messages')
 
 </x-layouts.backend>

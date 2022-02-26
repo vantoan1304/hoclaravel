@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     const TABLE = 'Categoies';
-    private $table = self::TABLE;
+    protected $table = self::TABLE;
     protected $fillable = [
         'name',
         'slug',
