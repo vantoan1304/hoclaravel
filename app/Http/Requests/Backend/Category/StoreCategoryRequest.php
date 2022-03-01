@@ -25,14 +25,20 @@ class StoreCategoryRequest extends FormRequest
      */
     public function rules()
     {
+        $id = '';
+        if($this->id){
+            $id = $this->id;
+        }
         return [
-            'name' => 'required|max:255'
+//            'name' => 'required|unique:categoies,name|max:255'
+            'name' => 'required|unique:categoies,name,'.$id.'|max:255'
         ];
     }
     public function messages()
     {
         return [
             'name.required' => 'Category name is required',
+            'name.unique' => 'Category đã tồn tại',
             'name.max' => 'Maximum length 255 characters'
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Category;
 
+use App\Enums\PagerType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Category\StoreCategoryRequest;
 use Illuminate\Http\Request;
@@ -14,16 +15,25 @@ class CategoryController extends Controller
     public function __construct(){
 
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
 
     public function index(Request $request)
     {
+        $dl = $request->all();
+        $perpage = PagerType::Perpage;
+        $category = Category::getAll($dl, $perpage);
+        $page = $request->page ?? PagerType::Page;
+        $category->appends($dl);
+        $search = $request->input('search');
+        $this->data['category'] = $category;
+        $this->data['search'] = $search;
+        $this->data['offset'] = ($page - PagerType::Page) * $perpage;
 
-        return view('components.backend.category.index');
+        return view('components.backend.category.index', $this->data);
     }
 
     /**
@@ -79,6 +89,7 @@ class CategoryController extends Controller
         }
         $this->data['isEdit'] = true;
         $this->data['category'] = $category;
+
 
         return view('components.backend.category.create', $this->data);
     }
