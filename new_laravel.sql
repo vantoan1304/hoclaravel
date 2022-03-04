@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th2 26, 2022 lúc 08:45 AM
+-- Thời gian đã tạo: Th3 02, 2022 lúc 10:44 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.4.27
 
@@ -66,9 +66,14 @@ CREATE TABLE `categoies` (
 --
 
 INSERT INTO `categoies` (`id`, `created_at`, `updated_at`, `name`, `slug`, `status`, `weight`) VALUES
-(1, '2022-02-25 21:26:28', '2022-02-25 21:26:28', 'ffff', NULL, 0, 0),
-(2, '2022-02-25 21:57:41', '2022-02-26 00:15:35', 'Fashion x', NULL, 0, 0),
-(3, '2022-02-25 23:52:37', '2022-02-25 23:52:37', 'data', NULL, 0, 0);
+(1, '2022-02-25 21:26:28', '2022-03-01 23:54:54', 'Thể thao', 'the-thao', 0, 0),
+(3, '2022-02-25 23:52:37', '2022-03-01 23:55:10', 'Tin tức', 'tin-tuc', 0, 0),
+(4, '2022-02-26 02:05:54', '2022-03-01 23:55:14', 'Du lịch', 'du-lich', 0, 0),
+(5, '2022-02-26 02:06:17', '2022-03-01 23:55:17', 'Xã hội', 'xa-hoi', 0, 0),
+(6, '2022-02-26 02:06:30', '2022-03-01 23:55:20', 'Thiên văn', 'thien-van', 0, 0),
+(8, '2022-03-01 01:08:20', '2022-03-02 02:44:01', 'Chứng khoán', 'chung-khoan', 0, 0),
+(10, '2022-03-01 01:23:10', '2022-03-02 02:44:04', 'Chính trị', 'chinh-tri', 0, 0),
+(12, '2022-03-01 23:41:51', '2022-03-01 23:41:51', 'Phim truyện', 'phim-truyen', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -242,7 +247,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT cho bảng `categoies`
 --
 ALTER TABLE `categoies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`

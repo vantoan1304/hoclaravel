@@ -10,7 +10,7 @@ use BenSampo\Enum\Enum;
  */
 final class PagerType extends Enum
 {
-    const Perpage =   7;
+    const Perpage =   5;
     const Page =   1;
 
 }

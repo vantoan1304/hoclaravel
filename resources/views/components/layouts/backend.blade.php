@@ -41,7 +41,9 @@
 
 @include('components.backend.shared.javascript')
 
-
+@if(isset($javascript))
+    {{ $javascript }}
+@endif
 </body>
 
 </html>

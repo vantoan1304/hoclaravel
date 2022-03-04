@@ -57,10 +57,20 @@
 {{--                        @endif--}}
                         <div class="form-group  row"><label class="col-sm-2 col-form-label">Thêm Category</label>
                             <div class="col-sm-10">
-                                <input type="text" name="name" id="name" class="form-control" value="{{ old('name', !empty($category) ? $category->name : '') }}">
+                                <input type="text" placeholder="Thêm danh mục" name="name" id="name" class="form-control" value="{{ old('name', !empty($category) ? $category->name : '') }}">
                                 @if ($errors->has('name'))
                                     <label id="inputRequired-error" class="error" for="name">{{ $errors->first('name') }}</label>
                                 @endif
+                            </div>
+                        </div>
+                        <div class="form-group row"><label class="col-sm-2 col-form-label">Chọn danh mục cha</label>
+
+                            <div class="col-sm-10"><select class="form-control m-b" name="parent_id">
+                                    <option>-- Chọn danh mục --</option>
+                                    @foreach($listdm as $key => $value)
+                                        <option value="{{ $value->id }}" @if(!empty($category) && $category->parent_id == $value->id) selected @endif>{{ $value->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>

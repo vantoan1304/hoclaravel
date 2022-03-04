@@ -4,6 +4,8 @@ namespace App\Models\Category;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Null_;
+use function PHPUnit\Framework\isNull;
 
 class Category extends Model
 {
@@ -16,6 +18,7 @@ class Category extends Model
         'slug',
         'status',
         'weight',
+        'parent_id',
         'created_at',
         'updated_at',
     ];
@@ -27,7 +30,8 @@ class Category extends Model
 
         $faram = array_merge(
             [
-                'search' => Null
+                'search' => Null,
+                'parent_id' => []
             ],
             $faram
         );
@@ -36,7 +40,25 @@ class Category extends Model
         if(!empty($faram['search'])){
             $kq->where('name', 'like', '%'.$faram['search'].'%');
         }
-//        dd($kq->toSql());
+
+        if(is_null($faram['parent_id'])){
+            $kq->whereNull('parent_id');
+        } else {
+            if(!empty($faram['parent_id'])){
+                $parend_id= explode(',', $faram['parent_id']);
+                $kq->whereIn('parent_id', $parend_id);
+            }
+        }
+
+//        echo $kq->toSql();
+//            exit;
         return empty($limit) ? $kq->get() : $kq->paginate($limit);
+
+    }
+    public function parents(){
+        Return $this->hasMany('Category');
+    }
+    public function chidrends(){
+        Return $this->hasMany('Category')->with('parents');
     }
 }

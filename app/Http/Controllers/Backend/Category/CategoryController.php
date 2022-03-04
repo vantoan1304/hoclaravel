@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Category\StoreCategoryRequest;
 use Illuminate\Http\Request;
 use App\Models\Category\Category;
+use Illuminate\Support\Str;
+use App\Helpers\ResponseHelper;
 
 class CategoryController extends Controller
 {
@@ -24,13 +26,14 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $dl = $request->all();
+//        dd($dl);
         $perpage = PagerType::Perpage;
         $category = Category::getAll($dl, $perpage);
         $page = $request->page ?? PagerType::Page;
         $category->appends($dl);
-        $search = $request->input('search');
         $this->data['category'] = $category;
-        $this->data['search'] = $search;
+        $this->data['dl'] = $dl;
+//        dd( $this->data['dl']);
         $this->data['offset'] = ($page - PagerType::Page) * $perpage;
 
         return view('components.backend.category.index', $this->data);
@@ -43,8 +46,10 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
+
         $this->data['isEdit'] = false;
         $this->data['category'] = [];
+        $this->data['listdm'] = Category::getAll(['parent_id' => null], null);
         return view('components.backend.category.create', $this->data);
     }
 
@@ -57,7 +62,9 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $dl = $request->all();
+        $dl['slug'] = Str::slug($dl['name'], '-');
         $category = Category::create($dl);
+
         if(!$category){
             return redirect()->route('backend.category.index')->with('error', 'Fail to store category');
         }
@@ -89,7 +96,7 @@ class CategoryController extends Controller
         }
         $this->data['isEdit'] = true;
         $this->data['category'] = $category;
-
+        $this->data['listdm'] = Category::getAll(['parent_id' => null], null);
 
         return view('components.backend.category.create', $this->data);
     }
@@ -105,6 +112,7 @@ class CategoryController extends Controller
     {
         $dl = $request->all();
         $category = Category::find($id);
+        $dl['slug'] = Str::slug($dl['name'], '-');
         if(!$category){
             return redirect()->route('backend.category.index')->with('error', 'id '.$id.' not a vail');
         }
@@ -119,8 +127,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request-> id ?? 0;
+       $category = Category::find($id);
+       if(!$category){
+           return ResponseHelper::error('Error', []);
+       }
+
+       $category->delete();
+        return ResponseHelper::success('Success', []);
+
     }
 }
